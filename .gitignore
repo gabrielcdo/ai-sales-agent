@@ -1,0 +1,11 @@
+openai_api_key.txt
+
+__pycache__/
+.ipynb_checkpoints/
+.vscode/
+.idea/
+
+.env
+.idea/
+
+data
