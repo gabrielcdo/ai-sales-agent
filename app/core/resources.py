@@ -17,6 +17,6 @@ class Resources:
         with open("/src/faiss_indexes/kb_texts.pkl", "rb") as f:
             self.documents = pickle.load(f)
         self.faiss_index = faiss.read_index("/src/faiss_indexes/kb_faiss.index")
-        self.model = SentenceTransformer("all-MiniLM-L6-v2")
+        self.sentence_transformer_model = SentenceTransformer("all-MiniLM-L6-v2")
 
         self.opik_client =opik.Opik()

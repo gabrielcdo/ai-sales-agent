@@ -11,12 +11,16 @@ import opik
 import os
 from app.core.resources import Resources
 from app.services.ai_agents.graph import MainAgentGraph
-os.environ["OPIK_BASE_URL"] = "http://opik-frontend-1:5173/api"
-# OPIK_URL_OVERRIDE same
-os.environ["OPIK_URL_OVERRIDE"] = "http://opik-frontend-1:5173/api"
-os.environ["OPIK_API_KEY"] = "opik_api_key"
+# os.environ["OPIK_BASE_URL"] = "http://opik-frontend-1:5173/api"
+# # OPIK_URL_OVERRIDE same
+# os.environ["OPIK_URL_OVERRIDE"] = "http://opik-frontend-1:5173/api"
+# os.environ["OPIK_API_KEY"] = "opik_api_key"
 # os.environ["OPIK_URL_OVERRIDE"] = 'http://opik_default:5173/api'
 from typing import Optional
+
+
+graph = MainAgentGraph().agent_graph
+opik_tracer = OpikTracer(graph=graph.get_graph(xray=True))
 
 @router.post(
     "/process_message",
@@ -27,7 +31,7 @@ def process_message(
     current_prospect_message: str,
     prospect_id: Optional[int] = None,
 ):
-    graph = MainAgentGraph().agent_graph
+    
     print(conversation_history)
     initial_state = State(
         prospect_id=123,
@@ -51,7 +55,7 @@ def process_message(
             "content": current_prospect_message,
         }
     )
-    opik_tracer = OpikTracer(graph=graph.get_graph(xray=True))
+
 
     result = graph.invoke(initial_state, config={"callbacks": [opik_tracer]})
     new_state = State(**result)

@@ -11,7 +11,6 @@ from app.services.ai_agents.ai_agents import (
 
 from app.core.singleton import singleton
 
-@singleton
 class MainAgentGraph:
     def __init__(self):
         self.agent_graph = self.build_graph()
