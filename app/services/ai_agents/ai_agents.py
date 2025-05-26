@@ -14,40 +14,53 @@ from langchain.chat_models import init_chat_model
 import concurrent
 from app.core.resources import Resources
 
-res = Resources()
+
+def get_res():
+    global _res_instance
+    try:
+        return _res_instance
+    except NameError:
+        _res_instance = Resources()
+        return _res_instance
 
 
-def fetch_prospect_details(state: State) -> ProspectDetails:
-    details = {
-        "past_interactions": ["E-mail de boas-vindas", "Demonstração agendada"],
-        "lead_score": 85,
-        "company_size": 50,
-        "technologies": ["Salesforce", "Slack"],
-    }
+def fetch_prospect_details(state: State) -> State:
+    """
+    Busca informações do prospecto a partir do JSON de prospects carregado em Resources.
+    Se não encontrar prospect_id, usa valores padrão.
+    """
+    res = get_res()
+
+    details = None
+    if state.prospect_id is not None:
+        key = str(state.prospect_id)
+        details = res.prospects.get(key)
+
+    if not details:
+        details = {
+        }
     state.prospect_details = ProspectDetails(**details)
-
     return state
 
 
 def fetch_knowledge_text(state: State) -> State:
-
+    res = get_res()
     documents = res.documents
     index = res.faiss_index
-    
     model = res.sentence_transformer_model
-
-    intents_str = ", ".join(state.prospect_message_analysis.intent or [])
+    # Trata caso None
+    if state.prospect_message_analysis and state.prospect_message_analysis.intent:
+        intents_str = ", ".join(state.prospect_message_analysis.intent)
+    else:
+        intents_str = ""
     query = (
         f"{state.current_prospect_message.strip()} Intenções detectadas: {intents_str}"
     )
-
     query_embedding = model.encode([query])
-
     top_k = 3
     _, indices = index.search(query_embedding, top_k)
     retrieved_chunks = [documents[i] for i in indices[0]]
     combined_text = "\n\n---\n\n".join(retrieved_chunks)
-    
     state.knowledge_text = KnowledgeText(text=combined_text)
     return state
 
@@ -67,9 +80,9 @@ tools = [
 
 
 def run_initial_analysis(state: State):
-    llm = init_chat_model(model="gpt-4.1-nano", temperature=0.0)
+    res = get_res()
+    llm = init_chat_model(model="gpt-4o-mini", temperature=0.0)
     llm = llm.with_structured_output(ProspectMessageAnalysis)
-
     initial_analysis_prompt = res.opik_client.get_prompt(
         name="initial_analysis_prompt"
     ).format(
@@ -77,15 +90,12 @@ def run_initial_analysis(state: State):
         current_prospect_message=state.current_prospect_message,
     )
     state.prospect_message_analysis = llm.invoke(initial_analysis_prompt)
-
     return state
 
 
-# function that will be used to strategit tool invocation logic
 def tools_selection(state: State) -> State:
-    # based in a prompt
+    res = get_res()
     tools_names = [tool.name + ": " + tool.description for tool in state.tools]
-
     tools_selection_prompt = res.opik_client.get_prompt(
         name="tools_selection_prompt"
     ).format(
@@ -93,12 +103,9 @@ def tools_selection(state: State) -> State:
         prospect_message_analysis=state.prospect_message_analysis,
         tools_names=tools_names,
     )
-    llm = init_chat_model(model="gpt-4.1-nano", temperature=0.0)
-    # print(f"Tools selection prompt: {tools_selection_prompt}")
+    llm = init_chat_model(model="gpt-4o-mini", temperature=0.0)
     llm = llm.with_structured_output(ToolSelectionOutput)
-    # state.tools_needed = llm.invoke(tools_selection_prompt).tools
-    state.tools_needed = ["fetch_prospect_details", "fetch_knowledge_text"]
-    
+    state.tools_needed = llm.invoke(tools_selection_prompt).tools
     return state
 
 
@@ -110,7 +117,7 @@ def parallel_tools_execution(state: State) -> State:
 
     def call_tool(tool: Tool) -> State:
         return tool.func(state)
-    
+
     with concurrent.futures.ThreadPoolExecutor() as executor:
         results = list(executor.map(call_tool, tools_to_run))
 
@@ -124,12 +131,12 @@ def parallel_tools_execution(state: State) -> State:
 
 
 def synthesize_results(state: State) -> State:
+    res = get_res()
     llm = init_chat_model(
-        model="gpt-4.1-nano",
+        model="gpt-4o-mini",
         temperature=0.0,
     )
     llm = llm.with_structured_output(LLMOutput)
-
     synthesis_prompt = res.opik_client.get_prompt(name="synthesis_prompt").format(
         conversation_history=state.conversation_history,
         prospect_message_analysis=state.prospect_message_analysis,

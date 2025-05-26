@@ -1,14 +1,10 @@
 from app.core.singleton import singleton
 
-from opik.integrations.langchain import OpikTracer
 import opik
-import os
+import json
 from sentence_transformers import SentenceTransformer
 import faiss
 import pickle
-
-# os.environ["OPIK_BASE_URL"] = 'http://opik-backend-1/api'
-# os.environ["OPIK_URL_OVERRIDE"] = 'http://opik_default:5173/api'
 
 
 @singleton
@@ -18,5 +14,9 @@ class Resources:
             self.documents = pickle.load(f)
         self.faiss_index = faiss.read_index("/src/faiss_indexes/kb_faiss.index")
         self.sentence_transformer_model = SentenceTransformer("all-MiniLM-L6-v2")
-
-        self.opik_client =opik.Opik()
+        with open("/src/faiss_indexes/knowledge_base.json", "r") as f:
+            self.knowledge_base = json.load(f)
+        # Load prospect details from JSON
+        with open("/src/faiss_indexes/prospects.json", "r") as f:
+            self.prospects = json.load(f)
+        self.opik_client = opik.Opik()

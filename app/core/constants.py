@@ -3,5 +3,3 @@ class Stage:
     DEV = "dev"
     LOCAL = "local"
     TEST = "test"
-
-

@@ -19,8 +19,8 @@ if __name__ == "__main__":
     LOGGING_CONFIG["formatters"]["access"]["fmt"] = access_log_fmt
 
     # Calculate the number of workers dynamically
-    num_workers=1
-    if settings.environment != 'local':
+    num_workers = 1
+    if settings.environment != "local":
         num_cores = multiprocessing.cpu_count()
         num_workers = 2 * num_cores + 1
     # Serve the app with dynamically calculated workers
@@ -30,5 +30,5 @@ if __name__ == "__main__":
         port=settings.api_port,
         reload=settings.autoreload,
         ws="none",
-        workers=num_workers
+        workers=num_workers,
     )

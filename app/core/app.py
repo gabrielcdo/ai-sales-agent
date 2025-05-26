@@ -2,15 +2,11 @@ import logging
 import time
 import sentry_sdk
 
-# import sentry_sdk
 from fastapi import FastAPI
 from fastapi import Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.responses import Response
-
-# from sentry_sdk.integrations.fastapi import FastApiIntegration
-# from sentry_sdk.integrations.starlette import StarletteIntegration
 
 from app.core.resources import Resources
 from app.core.settings import Settings

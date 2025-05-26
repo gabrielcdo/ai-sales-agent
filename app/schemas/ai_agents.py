@@ -38,25 +38,13 @@ class ProspectDetails(BaseModel):
 class KnowledgeText(BaseModel):
     text: str
 
-
-# outputs structure
-class InternalNextStep(BaseModel):
-    action: str
-    details: Dict[str, Any]
-
-
-class ToolUsageLogEntry(BaseModel):
-    tool_name: str
-    input: Dict[str, Any]
-    output_summary: str
-
-
 class LLMOutput(BaseModel):
     detailed_analysis: str
     suggested_response_draft: str
-    # internal_next_steps: List[Dict[str, Any]]
-    # tool_usage_log: List[ToolUsageLogEntry]
-    confidence_score: float  # Valor entre 0.0 e 1.0
+    internal_next_steps: List[str]
+    tool_usage_log: List[str]
+    confidence_score: float
+    reasoning_trace: str
 
 
 class ToolSelectionOutput(BaseModel):
@@ -71,7 +59,7 @@ class Tool(BaseModel):
 
 # Define state structure
 class State(BaseModel):
-    prospect_id: int
+    prospect_id: Optional[int] = (None,)
 
     tools: List[Tool] = []
     conversation_history: List[Dict[str, str]] = []
@@ -88,5 +76,3 @@ class State(BaseModel):
     knowledge_text: Optional[KnowledgeText] = None
 
     llm_output: Optional[LLMOutput] = None
-
-    # reasoning_trace: Optional[str] = None

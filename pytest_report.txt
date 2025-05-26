@@ -1,0 +1,57 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.6.0
+rootdir: /home/letrus/Documentos/letrus-gen-api
+plugins: langsmith-0.3.42, cov-6.1.1, opik-1.7.26, anyio-4.9.0
+collected 20 items
+
+app/tests/ai_agents/test_ai_agents.py .............                      [ 65%]
+app/tests/ai_agents/test_graph.py .                                      [ 70%]
+app/tests/ai_agents/test_preprocess_kb.py ....                           [ 90%]
+app/tests/faiss_service/test_preprocess_kb.py ..                         [100%]
+
+=============================== warnings summary ===============================
+<frozen importlib._bootstrap>:241
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+<frozen importlib._bootstrap>:241
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+<frozen importlib._bootstrap>:241
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                                            Stmts   Miss  Cover   Missing
+-----------------------------------------------------------------------------
+app/__init__.py                                     0      0   100%
+app/core/__init__.py                                0      0   100%
+app/core/app.py                                    31     31     0%   1-60
+app/core/constants.py                               5      5     0%   1-5
+app/core/resources.py                              16      7    56%   13-19
+app/core/settings.py                               15     15     0%   1-23
+app/core/singleton.py                               7      3    57%   5-7
+app/main.py                                        17     17     0%   1-27
+app/routers/__init__.py                            14     14     0%   1-20
+app/routers/ai_agent.py                            20     20     0%   1-58
+app/schemas/__init__.py                             0      0   100%
+app/schemas/ai_agents.py                           48      0   100%
+app/services/__init__.py                            0      0   100%
+app/services/ai_agents/ai_agents.py                68      6    91%   20-24, 114
+app/services/ai_agents/graph.py                    19      0   100%
+app/services/ai_agents/preprocess_kb.py            37     14    62%   34-55
+app/services/faiss_service/preprocess_kb.py        51      0   100%
+app/tests/__init__.py                               0      0   100%
+app/tests/ai_agents/__init__.py                     0      0   100%
+app/tests/ai_agents/test_ai_agents.py             148      0   100%
+app/tests/ai_agents/test_graph.py                  17      0   100%
+app/tests/ai_agents/test_preprocess_kb.py          24      0   100%
+app/tests/conftest.py                               0      0   100%
+app/tests/faiss_service/__init__.py                 0      0   100%
+app/tests/faiss_service/test_preprocess_kb.py      12      0   100%
+-----------------------------------------------------------------------------
+TOTAL                                             549    132    76%
+Coverage HTML written to dir coverage_html_report
+Coverage XML written to file coverage.xml
+======================== 20 passed, 3 warnings in 9.53s ========================

@@ -1,20 +1,17 @@
-
 from langgraph.graph import StateGraph, START, END
-from app.core.singleton import singleton
 from app.schemas.ai_agents import State
 from app.services.ai_agents.ai_agents import (
     run_initial_analysis,
     tools_selection,
     parallel_tools_execution,
-    synthesize_results
+    synthesize_results,
 )
 
-from app.core.singleton import singleton
 
 class MainAgentGraph:
     def __init__(self):
         self.agent_graph = self.build_graph()
-        
+
     def build_graph(self):
         graph_builder = StateGraph(State)
         graph_builder.add_node(run_initial_analysis)
@@ -28,5 +25,5 @@ class MainAgentGraph:
         graph_builder.add_edge("synthesize_results", END)
 
         graph = graph_builder.compile()
-        
+
         return graph

@@ -1,0 +1,126 @@
+🚀 SOBRE A SAILER AI
+A Sailer AI é a primeira inteligência artificial de vendas consultivas do Brasil. Atuamos como um agente comercial autônomo, 100% orientado a dados, capaz de qualificar, engajar e converter leads de forma natural, escalável e eficiente — 24 horas por dia, 7 dias por semana.
+
+Nossa missão é simples: aumentar radicalmente a conversão de leads e reduzir o custo operacional de vendas, automatizando o processo comercial sem comprometer a qualidade da abordagem humana.
+
+🧠 COMO FUNCIONA A SAILER AI
+A Sailer combina LLMs, RAG (busca semântica), integrações de CRM e playbooks customizados de vendas para agir como um SDR (pré-vendedor) experiente.
+
+Principais funcionalidades:
+Função	O que faz
+Qualificação de Leads	Faz perguntas inteligentes, identifica interesse e separa leads quentes
+Respostas automáticas com contexto	Interage com leads em canais como WhatsApp, chat, e-mail e responde com empatia e precisão
+Follow-ups estratégicos	Reativa leads com base em contexto e janela de oportunidade
+Preenchimento automático de CRM	Atualiza campos como nível de interesse, objeções, intenção e próximos passos
+Integração com sistemas de vendas	Conecta-se a CRMs, plataformas de automação e ERPs para sincronizar dados
+
+👥 PERFIS DE CLIENTES ATENDIDOS
+Pequenos e médios times de vendas
+Startups, agências, clínicas, franquias, e-commerce
+
+Querem escalar sem aumentar headcount
+
+Precisam garantir padronização e velocidade nas respostas
+
+Empresas com alto volume de leads
+Educação, seguros, fitness, imóveis, SaaS, serviços financeiros
+
+Alto CAC sem automação → perdem vendas por falta de follow-up
+
+Usam a Sailer como copiloto para vendedores humanos
+
+Operações B2B complexas
+Indústrias, tecnologia, telecom, energia
+
+Longo ciclo de vendas com múltiplos decisores
+
+Usam a IA para diagnóstico consultivo e triagem qualificada
+
+🛠️ COMPONENTES PRINCIPAIS DO SISTEMA
+Módulo	Função
+Orquestrador de Conversas	Coordena o fluxo da conversa com base em intenção, dados e contexto
+Análise Semântica	Extrai intenção, entidades-chave e sentimento de cada mensagem
+Ferramentas Internas (Function Calling)	Usa ferramentas como: fetch_prospect_details (CRM) e query_knowledge_base (RAG)
+RAG (Retrieval-Augmented Generation)	Busca respostas precisas em playbooks de vendas, FAQ, políticas de preço, diferenciais etc.
+Gerador de Resposta Final	Gera resposta estruturada + próximos passos + ações internas recomendadas
+
+🔧 EXEMPLOS DE AÇÕES QUE A IA PODE TOMAR
+Atualizar CRM com: {"field": "interest_level", "value": "high"}
+
+Agendar follow-up: {"action": "SCHEDULE_FOLLOW_UP", "details": {"reason": "sinal de compra"}}
+
+Sugerir resposta: “Sim! Nosso sistema se integra com RD Station, e podemos mostrar um exemplo real.”
+
+Pedir ajuda humana: {"action": "FLAG_FOR_HUMAN_REVIEW", "details": {"reason": "objeção técnica complexa"}}
+
+📚 BASE DE CONHECIMENTO DA SAILER AI
+A IA consulta uma base estruturada com:
+
+Argumentos de venda por segmento
+
+Objeções frequentes e como responder
+
+Diferenciais competitivos vs. concorrentes
+
+Modelos de integração com ferramentas (CRM, ERP, automação)
+
+Scripts de qualificação (BANT, GPCT, etc.)
+
+💬 EXEMPLOS DE CONVERSA
+👤 Lead: “Gostaria de saber se funciona com Salesforce.”
+🤖 Sailer AI: “Sim! Temos integração com Salesforce via API nativa. Posso mostrar como isso funciona para sua operação?”
+
+👤 Lead: “Achei meio caro o plano de vocês.”
+🤖 Sailer AI: “Entendo. Muitas empresas começam pelo plano base e evoluem com ROI. Quer ver um exemplo de cliente com perfil parecido?”
+
+👤 Lead: “Já uso outra ferramenta de automação.”
+🤖 Sailer AI: “Ótimo! A Sailer pode trabalhar em conjunto com sua ferramenta atual, ampliando a cobertura de atendimento e aumentando conversões.”
+
+📈 BENEFÍCIOS PARA SEU TIME COMERCIAL
+10x mais conversões com mesma equipe
+
+68% de redução em tempo operacional
+
+Follow-up automático = menos leads perdidos
+
+Padronização total do discurso de vendas
+
+CRM sempre atualizado (sem depender do vendedor)
+
+⚙️ INTEGRAÇÕES E COMPATIBILIDADE
+CRMs: Salesforce, Pipedrive, Hubspot, Moskit, RD Station
+
+Protocolos suportados: REST API, Webhooks, Zapier, Modbus (em energia), SCORM (em educação)
+
+Chat channels: WhatsApp (API oficial), Webchat, Instagram DM, E-mail
+
+ERPs/automação: TOTVS, Bling, Conta Azul, Omie
+
+❗ OBJEÇÕES COMUNS E RESPOSTAS CONSULTIVAS
+Objeção	Resposta da IA
+“É caro”	“Na verdade, o investimento se paga rápido. A economia com equipe + aumento na conversão gera ROI já no 1º mês.”
+“Prefiro contato humano”	“A IA atua como apoio. Sempre que necessário, transferimos para um especialista humano.”
+“Minha operação é muito específica”	“Perfeito. A IA é treinada com seu próprio playbook e CRM. Cada agente é customizado.”
+“Já uso chatbot”	“A diferença é que a Sailer não é um chatbot — ela entende intenção, acessa dados e gera ações reais.”
+
+📊 RESULTADOS REAIS DE CLIENTES
+Cliente	Segmento	Benefícios alcançados
+EdTech X	Educação	+23% em conversão, -72% em tempo de resposta
+Loja Y	E-commerce	CRM 100% preenchido, +18% em ticket médio
+Clínica Z	Saúde	+35% em qualificação de leads com IA, agendamentos automáticos
+
+🔐 SEGURANÇA E CONFORMIDADE
+Dados criptografados em trânsito e em repouso
+
+Total conformidade com LGPD
+
+Logs auditáveis e exportáveis
+
+Ambiente seguro com autenticação e controle de acesso
+
+🚀 PRONTO PARA VENDER MAIS COM A SAILER AI?
+Seja um time pequeno ou uma operação com milhares de leads por mês, a Sailer AI transforma seu processo de vendas com automação inteligente, padronização e performance.
+
+Fale com nosso especialista e veja como aplicar a IA hoje mesmo.
+
+Se quiser posso gerar essa documentação em PDF, Markdown ou HTML, ou embutir isso como contexto institucional para sua base de conhecimento RAG. Quer seguir por algum desses caminhos?
