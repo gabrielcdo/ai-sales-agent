@@ -1,59 +1,141 @@
-# Sales AI Agent
-![Sales AI Agent Pipeline](images/Application_flow.png)
+# Sailer AI Agent
+![Application Flow](images/application_flow.png)
 
-## Description
-Sales AI Agent is an API for automating consultative sales using AI. It qualifies, engages, and converts leads autonomously and efficiently. The solution leverages LLMs, RAG (semantic search), CRM integrations, and custom sales playbooks to act as an expert SDR, automatically responding to leads, scheduling follow-ups, and updating the CRM without human effort.
+## Overview
 
-## Main Features
+Sailer AI Agent is an API for automating consultative sales using LLMs, RAG (semantic search), CRM integrations, and custom playbooks. It acts as an autonomous SDR, qualifying, engaging, and converting leads, while integrating with the [Opik](https://github.com/comet-ml/opik) platform for prompt versioning, monitoring, and advanced LLM metrics.
+
+---
+
+## Features
+
 - Lead qualification and intent analysis
-- Context-aware automatic responses
+- Context-aware, automatic responses
 - Strategic follow-ups
 - Automatic CRM updates
 - Integration with sales systems (Salesforce, Pipedrive, RD Station, etc.)
 - Conversation orchestration based on intent and context
+- **Opik Integration**:  
+  - Prompt versioning & playground  
+  - Online monitoring: confidence score, LLM score, latency, costs  
+  - Ground truth and offline metrics  
+  - Prompt auto-optimization
 
-## Requirements
-- Python 3.11+
-- Docker and Docker Compose (recommended for production)
+---
 
-## Installation
-### 1. Clone the repository
+## Architecture
+
+- **FastAPI Sailer AI Container**: Orchestrates the LLM pipeline using LangGraph, with steps for initial analysis, tool selection, tool execution (prospect details, knowledge text), and synthesis of results.
+- **Opik Container**: Provides prompt versioning, monitoring, metrics, playground, and optimization.
+- **Sentry**: Error logging and monitoring.
+
+See the diagram above for a detailed flow.
+
+---
+
+## Quickstart
+
+### 1. Clone and Start Opik
+
 ```bash
-git clone <repo_url>
-cd letrus-gen-api
+git clone https://github.com/comet-ml/opik.git
+cd opik
+./opik.sh
 ```
 
-### 2. Configure environment variables
-Copy `.env.example` to `.env` and fill in the required values:
+### 2. Start the AI Agent
+
+From this repository's root:
+
+```bash
+docker compose up --build
+```
+
+### 3. Connect the AI Agent to the Opik Network
+
+After both containers are running:
+
+```bash
+docker network connect opik_default ai_agent
+```
+
+---
+
+## Environment Variables
+
+Copy `.env.example` to `.env` and fill in your keys:
+
 ```bash
 cp .env.example .env
 # Edit the .env file as needed
 ```
 
-### 3. Install dependencies (local mode)
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
+Main variables:
+- `API_PORT`
+- `OPENAI_API_KEY`
+- `OPIK_BASE_URL`, `OPIK_API_KEY`, `OPIK_URL_OVERRIDE`, `OPIK_PROJECT_NAME`
+
+---
+
+## API Usage
+
+The main endpoint is:
+
+```
+POST /api/ai_agent/process_message
 ```
 
-## Running the API
-### Local Mode
+**Example cURL:**
+
 ```bash
-PYTHONPATH=. uvicorn app.main:app --host 0.0.0.0 --port $API_PORT --reload
+curl -X 'POST' \
+  'http://localhost:8001/api/ai_agent/process_message?current_prospect_message=How%20can%20Sailer%20AI%20help%20me%20increase%20sales%3F&prospect_id=1' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '[]'
 ```
 
-### With Docker
-```bash
-docker-compose up --build
-```
+Replace `current_prospect_message` and `prospect_id` as needed.
+
+---
 
 ## Documentation & Healthcheck
-- Interactive docs: `http://localhost:$API_PORT/api/ai_agent/docs`
-- Healthcheck: `http://localhost:$API_PORT/api/ai_agent/healthcheck`
+
+- Interactive docs: [http://localhost:$API_PORT/api/ai_agent/docs](http://localhost:$API_PORT/api/ai_agent/docs)
+- Healthcheck: [http://localhost:$API_PORT/api/ai_agent/healthcheck](http://localhost:$API_PORT/api/ai_agent/healthcheck)
+
+---
+
+## Testing
+
+Run tests with:
+
+```bash
+docker compose exec ai_agent pytest
+```
+or
+```bash
+pytest
+```
+
+---
+
+## Metrics & Monitoring (via Opik)
+
+- Online confidence score
+- LLM score
+- Latency
+- Costs
+- Ground truth & offline metrics
+- Prompt versioning & playground
+- Prompt auto-optimization
+
+All tracked and visualized in the Opik dashboard.
+
+---
 
 ## Folder Structure
+
 ```
 ├── app/
 │   ├── main.py                # FastAPI application entrypoint
@@ -69,30 +151,4 @@ docker-compose up --build
 ├── .env.example               # Example environment variables
 ```
 
-## Environment Variables (.env)
-See `.env.example` for all required parameters. Main ones:
-- `API_PORT`: API port
-- `OPENAI_API_KEY`: OpenAI key
-- `OPIK_BASE_URL`, `OPIK_API_KEY`, `OPIK_URL_OVERRIDE`, `OPIK_PROJECT_NAME`: Opik integration
-
-## Usage Example (main endpoint)
-```json
-POST /api/ai_agent/process_message
-{
-  "conversation_history": {"1": "Hi, I'd like to know more about the product."},
-  "current_prospect_message": "Does your AI work with RD Station?"
-}
-```
-Response:
-```json
-"Yes! Our system integrates with RD Station, and we can show you a real example."
-```
-
-## Tests
-Add your tests in `app/tests/`. To run (example with pytest):
-```bash
-pytest
-```
-
 ---
-For questions, suggestions, or contributions, open an issue or contact us.
